@@ -1,0 +1,46 @@
+{
+  "manifest_version": 3,
+  "name": "Enspell",
+  "version": "0.0.1",
+  "description": "DLsiteをもっと快適に楽しむためのツール",
+
+  "permissions": ["storage"],
+
+  "content_scripts": [
+    {
+      "matches": ["*://*.dlsite.com/*/fsr/*", "*://*.dlsite.com/*/works/*"],
+      "js": ["main.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.dlsite.com/maniax/", "*://*.dlsite.com/maniax"],
+      "js": ["toppage.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.dlsite.com/maniax/ranking*"],
+      "js": ["rankingpage.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.dlsite.com/maniax/announce/list*"],
+      "js": ["announcepage.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.dlsite.com/maniax/new*"],
+      "js": ["newpage.js"],
+      "run_at": "document_end"
+    },
+    {
+      "exclude_matches": ["*://*.dlsite.com/*touch/work/=/product_id/*"],
+      "matches": ["*://*.dlsite.com/*/work/=/product_id/*"],
+      "js": ["main.js"],
+      "css": ["style.css"]
+    }
+  ],
+  "options_ui":{
+    "page": "options/options.html"
+  }
+
+}
