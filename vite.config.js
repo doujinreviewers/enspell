@@ -11,6 +11,7 @@ export default defineConfig({
     rollupOptions: {
       input: {
         'content/circle_filter': path.resolve(__dirname, 'src/content/circle_filter.js'),
+        'content/estimate': path.resolve(__dirname, 'src/content/estimate.js'),
         'options/options': path.resolve(__dirname, 'src/options/options.html'),
       },
       output: {

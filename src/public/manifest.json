@@ -17,6 +17,12 @@
       "matches": ["*://*.dlsite.com/*"],
       "js": ["content/circle_filter.js"],
       "run_at": "document_end"
+    },
+    {
+      "exclude_matches": ["*://*.dlsite.com/*touch/work/=/product_id/*"],
+      "matches": ["*://*.dlsite.com/*/work/=/product_id/*"],
+      "js": ["content/estimate.js"],
+      "css": ["style.css"]
     }
   ],
 

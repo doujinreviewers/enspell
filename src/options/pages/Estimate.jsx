@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stack, Radio, Group, Text, Checkbox } from '@mantine/core';
 import useSettings from '../hooks/useSettings';
-import classes from './style.module.css';
+import '../../public/style.css';
 
 const format_list = [
   { format: '123,456円' },
@@ -22,7 +22,7 @@ const Estimate = () => {
 
   const format_cards = format_list.map((item) => (
     <Radio.Card
-      className={`${classes.root} ${settings.estimate_format === item.format ? classes.selected : ''}`}
+      className={`root ${settings.estimate_format === item.format ? "selected" : ''}`}
       radius="md"
       value={item.format}
       key={item.format}
@@ -30,7 +30,7 @@ const Estimate = () => {
       <Group wrap="nowrap" align="flex-start">
         <Radio.Indicator />
         <div>
-          <Text className={classes.label}>{item.format}</Text>
+          <Text className="label">{item.format}</Text>
         </div>
       </Group>
     </Radio.Card>
@@ -38,7 +38,7 @@ const Estimate = () => {
 
   const text_design_cards = text_design_list.map((item) => (
     <Radio.Card
-      className={`${classes.root} ${settings.estimate_text_design === item.format ? classes.selected : ''}`}
+      className={`root ${settings.estimate_text_design === item.format ? "selected" : ''}`}
       radius="md"
       value={item.format}
       key={item.format}
@@ -46,7 +46,7 @@ const Estimate = () => {
       <Group wrap="nowrap" align="flex-start">
         <Radio.Indicator />
         <div>
-          <Text className={classes.label}>{item.format}</Text>
+          <Text className="label">{item.format}</Text>
         </div>
       </Group>
     </Radio.Card>
@@ -58,8 +58,8 @@ const Estimate = () => {
 
       {settings.show_estimate && (
         <div
-          className={`${classes.preview} ${
-            settings.estimate_text_design === 'ゴールドのテキスト' ? classes.gold : ''
+          className={`preview ${
+            settings.estimate_text_design === 'ゴールドのテキスト' ? "gold" : ''
           }`}
         >
           {settings.estimate_format}
