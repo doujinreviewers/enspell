@@ -54,7 +54,7 @@ const Estimate = () => {
 
   return (
     <Stack>
-      <h2>売上推計設定</h2>
+      <h2>売上推計表示設定</h2>
 
       {settings.show_estimate && (
         <div
