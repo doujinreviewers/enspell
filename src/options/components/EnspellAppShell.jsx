@@ -1,8 +1,13 @@
-import { AppShell, Burger, Group, Skeleton } from '@mantine/core';
+import { useState } from 'react';
+import { AppShell, Burger, Group, Badge, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { IconHome2, IconGauge, IconCancel } from '@tabler/icons-react';
+import Home from '../pages/Home';
+import CircleFilter from '../pages/CircleFilter';
 
 export function EnspellAppShell() {
   const [opened, { toggle }] = useDisclosure();
+  const [activePage, setActivePage] = useState('home');
 
   return (
     <AppShell
@@ -13,18 +18,27 @@ export function EnspellAppShell() {
       <AppShell.Header>
         <Group h="100%" px="md">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          {/* <MantineLogo size={30} /> */}
+          DLsite Enspell 設定画面
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">
-        Navbar
-        {Array(15)
-          .fill(0)
-          .map((_, index) => (
-            <Skeleton key={index} h={28} mt="sm" animate={false} />
-          ))}
+        <NavLink
+          label="ホーム"
+          leftSection={<IconHome2 size={16} stroke={1.5} />}
+          active={activePage === 'home'}
+          onClick={() => setActivePage('home')}
+        />
+        <NavLink
+          label="サークルフィルタリング設定"
+          leftSection={<IconCancel size={16} stroke={1.5} />}
+          active={activePage === 'circle_filter'}
+          onClick={() => setActivePage('circle_filter')}
+        />
       </AppShell.Navbar>
-      <AppShell.Main>Main</AppShell.Main>
+      <AppShell.Main>
+        {activePage === 'home' && <Home />}
+        {activePage === 'circle_filter' && <CircleFilter />}
+      </AppShell.Main>
     </AppShell>
   );
 }
