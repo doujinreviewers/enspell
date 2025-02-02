@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Checkbox, Stack, Textarea } from '@mantine/core';
-import { updateSettings, getSettings } from '../storage';
+import useSettings from '../hooks/useSettings';
 
 
 const CircleFilter = () => {
 
-  const [settings, setSettings] = useState({
+  const { settings, handleChange, handleTextChange } = useSettings({
     ng_circles: '',
     show_ng_count: false,
     enable_top: false,
@@ -14,17 +14,6 @@ const CircleFilter = () => {
     enable_announce: false,
     enable_new: false,
   });
-
-  // 初回ロード時に設定を取得
-  useEffect(() => {
-    getSettings(setSettings);
-  }, []);
-
-  const handleChange = (key) => (event) => {
-    const newSettings = { ...settings, [key]: event.target.checked };
-    setSettings(newSettings);
-    updateSettings({ [key]: event.target.checked });
-  };
 
   return (
     <Stack>
@@ -37,14 +26,7 @@ const CircleFilter = () => {
           autosize
           minRows={4}
           value={settings.ng_circles}
-          onChange={
-            (event) => {
-              const newText = event.target.value;
-              const newSettings = { ...settings, ng_circles: newText };
-              setSettings(newSettings);
-              updateSettings({ ng_circles: newText });
-            }
-          }
+          onChange={handleTextChange('ng_circles')}
         />
       </div>
 
