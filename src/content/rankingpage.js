@@ -1,5 +1,7 @@
 "use strict";
 {
+  const DLSITE_ENSPELL_STORAGE_KEY = 'dlsite_enspell_options';
+
   let judge = (ng_circles, maker_name_or_circle_number) => {
     return ng_circles.some((pattern) => {
       return pattern && pattern == maker_name_or_circle_number
@@ -16,11 +18,8 @@
   let all_cells = document.querySelectorAll(".n_worklist > tbody > tr");
   let category_cells = document.querySelectorAll("li.ranking_top_worklist_item");
   
-  chrome.storage.local.get({
-    ng_circles: "",
-    show_ng_count: false,
-    enable_ranking: false
-  },(settings)=>{
+  chrome.storage.sync.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
+    let settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
 
     if(!settings.enable_ranking){
       return;

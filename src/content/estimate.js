@@ -1,7 +1,7 @@
+import { DLSITE_ENSPELL_STORAGE_KEY } from "../options/storage.js";
+
 "use strict";
 {
-  const DLSITE_ENSPELL_STORAGE_KEY = 'dlsite_enspell_options';
-
   // https://zenn.dev/terrierscript/articles/2021-02-21-java-script-number-format-compact
   let fullFormat = (number) => {
     const formatter = new Intl.NumberFormat("ja-JP",{ 

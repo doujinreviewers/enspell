@@ -1,5 +1,7 @@
 const DLSITE_ENSPELL_STORAGE_KEY = 'dlsite_enspell_options';
 
+export { DLSITE_ENSPELL_STORAGE_KEY };
+
 export const updateSettings = (newSettings) => {
   chrome.storage.sync.get(DLSITE_ENSPELL_STORAGE_KEY, (data) => {
     let currentSettings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};

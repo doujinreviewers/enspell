@@ -14,8 +14,28 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.dlsite.com/*"],
-      "js": ["content/circle_filter.js"],
+      "matches": ["*://*.dlsite.com/*/fsr/*", "*://*.dlsite.com/*/works/*"],
+      "js": ["content/search.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.dlsite.com/*/", "*://*.dlsite.com/*"],
+      "js": ["content/toppage.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.dlsite.com/*/ranking*"],
+      "js": ["content/rankingpage.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.dlsite.com/*/announce/list*"],
+      "js": ["content/announcepage.js"],
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.dlsite.com/*/new*"],
+      "js": ["content/newpage.js"],
       "run_at": "document_end"
     },
     {

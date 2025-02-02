@@ -1,5 +1,7 @@
 "use strict";
 {
+  const DLSITE_ENSPELL_STORAGE_KEY = 'dlsite_enspell_options';
+
   let judge = (ng_circles, maker_name_or_circle_number) => {
     return ng_circles.some((pattern) => {
       return pattern && pattern == maker_name_or_circle_number
@@ -13,11 +15,8 @@
     };
   }
 
-  chrome.storage.local.get({
-    ng_circles: "",
-    show_ng_count: false,
-    enable_new: false
-  },(settings)=>{
+  chrome.storage.sync.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
+    let settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
 
     if(!settings.enable_new){
       return;
