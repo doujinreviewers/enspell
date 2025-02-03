@@ -17,6 +17,7 @@ export default defineConfig({
         'content/rankingpage': path.resolve(__dirname, 'src/content/rankingpage.js'),
         'content/toppage': path.resolve(__dirname, 'src/content/toppage.js'),
         'content/estimate': path.resolve(__dirname, 'src/content/estimate.js'),
+        'content/reviewer_product': path.resolve(__dirname, 'src/content/reviewer_product.js'),
         'options/options': path.resolve(__dirname, 'src/options/options.html'),
       },
       output: {

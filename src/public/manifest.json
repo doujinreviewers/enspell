@@ -41,7 +41,7 @@
     {
       "exclude_matches": ["*://*.dlsite.com/*touch/work/=/product_id/*"],
       "matches": ["*://*.dlsite.com/*/work/=/product_id/*"],
-      "js": ["content/estimate.js"],
+      "js": ["content/estimate.js", "content/reviewer_product.js"],
       "css": ["style.css"]
     }
   ],

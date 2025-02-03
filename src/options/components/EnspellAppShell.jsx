@@ -5,6 +5,7 @@ import { IconHome2, IconCancel, IconCoinYen } from '@tabler/icons-react';
 import Home from '../pages/Home';
 import CircleFilter from '../pages/CircleFilter';
 import Estimate from '../pages/Estimate';
+import ReviewerFilter from '../pages/ReviewerFilter';
 
 export function EnspellAppShell() {
   const [opened, { toggle }] = useDisclosure();
@@ -41,11 +42,18 @@ export function EnspellAppShell() {
           active={activePage === 'estimate'}
           onClick={() => setActivePage('estimate')}
         />
+        <NavLink
+          label="レビュアーフィルタリング設定"
+          leftSection={<IconCancel size={16} stroke={1.5} />}
+          active={activePage === 'reviewer_filter'}
+          onClick={() => setActivePage('reviewer_filter')}
+        />
       </AppShell.Navbar>
       <AppShell.Main>
         {activePage === 'home' && <Home />}
         {activePage === 'circle_filter' && <CircleFilter />}
         {activePage === 'estimate' && <Estimate />}
+        {activePage === 'reviewer_filter' && <ReviewerFilter />}
       </AppShell.Main>
     </AppShell>
   );

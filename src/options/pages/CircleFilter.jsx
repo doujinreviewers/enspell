@@ -37,7 +37,7 @@ const CircleFilter = () => {
         onChange={handleChange('show_ng_count')}
       />
 
-      <h2>非表示を行うページの設定</h2>
+      <h2>非表示設定を適用するページ</h2>
       <Checkbox
         label="トップページ"
         checked={settings.enable_top}
