@@ -10,7 +10,6 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
-        'content/circle_filter': path.resolve(__dirname, 'src/content/circle_filter.js'),
         'content/search': path.resolve(__dirname, 'src/content/search.js'),
         'content/announcepage': path.resolve(__dirname, 'src/content/announcepage.js'),
         'content/newpage': path.resolve(__dirname, 'src/content/newpage.js'),

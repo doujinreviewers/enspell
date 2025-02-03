@@ -2,11 +2,11 @@
 {
   const DLSITE_ENSPELL_STORAGE_KEY = 'dlsite_enspell_options';
 
-  let judge = (ng_circles, maker_name_or_circle_number) => {
-    return ng_circles.some((pattern) => {
-      return pattern && pattern == maker_name_or_circle_number
+  let judge = (ng_arr, id_or_name) => {
+    return ng_arr.some((ng_target) => {
+      return ng_target.id == id_or_name || ng_target.name == id_or_name;
     });
-  }
+  };
 
   let getMakerNameAndCircleNumber = (cell) => {
     return {
@@ -25,14 +25,13 @@
       return;
     }
 
-    let ng_arr = settings.ng_circles.split(/\r\n|\n/);
     let cells = all_cells.length != 0 ? all_cells : category_cells;
     let ngcount = 0;
 
     Array.from(cells).forEach((cell) => {
       let { maker_name, circle_number } = getMakerNameAndCircleNumber(cell);
 
-      if (judge(ng_arr, maker_name) || judge(ng_arr, circle_number)){
+      if (judge(settings.ng_circles, maker_name) || judge(settings.ng_circles, circle_number)){
         cell.remove();
         ngcount++;
       }

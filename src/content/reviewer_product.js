@@ -2,11 +2,11 @@
 {
   const DLSITE_ENSPELL_STORAGE_KEY = 'dlsite_enspell_options';
 
-  let judge = (ng_reviewers, reviewer_name_or_reviewer_number) => {
-    return ng_reviewers.some((pattern) => {
-      return pattern && pattern == reviewer_name_or_reviewer_number
+  let judge = (ng_arr, id_or_name) => {
+    return ng_arr.some((ng_target) => {
+      return ng_target.id == id_or_name || ng_target.name == id_or_name;
     });
-  }
+  };
 
   let getReviewerNameAndNumber = (cell) => {
     return {
@@ -22,14 +22,13 @@
       return;
     }
 
-    let ng_arr = settings.ng_reviewers.split(/\r\n|\n/);
     let cells = document.querySelectorAll(".review_contents");
     let ngcount = 0;
 
     Array.from(cells).forEach((cell) => {
       let { reviewer_name, reviewer_number } = getReviewerNameAndNumber(cell);
 
-      if (judge(ng_arr, reviewer_name) || judge(ng_arr, reviewer_number)){
+      if (judge(settings.ng_reviewers, reviewer_name) || judge(settings.ng_reviewers, reviewer_number)){
         cell.remove();
         ngcount++;
       }
