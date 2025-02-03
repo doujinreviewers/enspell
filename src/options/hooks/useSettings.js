@@ -25,12 +25,12 @@ const useSettings = (initialState) => {
     updateSettings({ [key]: event.target.value });
   };
 
-  const handleCircleBlockListChange = (key, newValue) => {
+  const handleBlockListChange = (key, newValue) => {
     setSettings((prev) => ({ ...prev, [key]: newValue }));
     updateSettings({ [key]: newValue });
   };
 
-  return { settings, handleRadioChange, handleChange, handleTextChange, handleCircleBlockListChange };
+  return { settings, handleRadioChange, handleChange, handleTextChange, handleBlockListChange };
 };
 
 export default useSettings;

@@ -1,31 +1,61 @@
-import React from 'react';
-import { Checkbox, Stack, Textarea } from '@mantine/core';
+import React, { useState } from 'react';
+import { Checkbox, Stack, TextInput, Group, Button } from '@mantine/core';
 import useSettings from '../hooks/useSettings';
+import ReviewerTable from '../components/ReviewerTable';
 
 
 const ReviewerFilter = () => {
 
-  const { settings, handleChange, handleTextChange } = useSettings({
-    ng_reviewers: '',
-    show_reviewer_ng_count: false,
-    enable_product: false,
-    enable_review_list: false,
+  const { settings, handleChange, handleBlockListChange } = useSettings({
+    ng_reviewers: [],
+    show_ng_count: false,
+    enable_top: false,
+    enable_search: false,
+    enable_ranking: false,
+    enable_announce: false,
+    enable_new: false,
   });
+
+  const [reviewerId, setReviewerId] = useState('');
+  const [reviewerName, setReviewerName] = useState('');
+
+  const handleAddReviewer = () => {
+    if (!reviewerId.trim() && !reviewerName.trim()) return;
+
+    const newReviewer = { id: reviewerId, name: reviewerName };
+    const updatedReviewers = [...settings.ng_reviewers, newReviewer];
+
+    handleBlockListChange('ng_reviewers', updatedReviewers);
+    setReviewerId('');
+    setReviewerName('');
+  };
+
+  const handleUpdateReviewers = (updatedReviewers) => {
+    handleBlockListChange('ng_reviewers', updatedReviewers);
+  };
 
   return (
     <Stack>
       <h2>レビュアーフィルタリング設定</h2>
       <div>
-        <Textarea
-          label="非表示にするレビュアーの名前またはREVを含むレビュアーのID"
-          description="1行に1レビュアーを記入してください"
-          placeholder={`レビュアー1\nREV123456`}
-          autosize
-          minRows={4}
-          maxRows={18}
-          value={settings.ng_reviewers}
-          onChange={handleTextChange('ng_reviewers')}
-        />
+        <Group align="flex-end">
+          <TextInput
+            label="レビュアーID"
+            placeholder="REV123456"
+            value={reviewerId}
+            onChange={(e) => setReviewerId(e.target.value)}
+          />
+          <TextInput
+            label="レビュアー名"
+            placeholder="レビュアー1"
+            value={reviewerName}
+            onChange={(e) => setReviewerName(e.target.value)}
+          />
+          <Button onClick={handleAddReviewer}>追加</Button>
+        </Group>
+      </div>
+      <div>
+        <ReviewerTable reviewers={settings.ng_reviewers} handleUpdateReviewers={handleUpdateReviewers} />
       </div>
 
       <h2>非表示件数の表示設定</h2>

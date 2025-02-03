@@ -6,7 +6,7 @@ import CircleTable from '../components/CircleTable';
 
 const CircleFilter = () => {
 
-  const { settings, handleChange, handleCircleBlockListChange } = useSettings({
+  const { settings, handleChange, handleBlockListChange } = useSettings({
     ng_circles: [],
     show_ng_count: false,
     enable_top: false,
@@ -25,13 +25,13 @@ const CircleFilter = () => {
     const newCircle = { id: circleId, name: circleName };
     const updatedCircles = [...settings.ng_circles, newCircle];
 
-    handleCircleBlockListChange('ng_circles', updatedCircles);
+    handleBlockListChange('ng_circles', updatedCircles);
     setCircleId('');
     setCircleName('');
   };
 
   const handleUpdateCircles = (updatedCircles) => {
-    handleCircleBlockListChange('ng_circles', updatedCircles);
+    handleBlockListChange('ng_circles', updatedCircles);
   };
 
   return (
