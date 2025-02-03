@@ -37,6 +37,7 @@ const ReviewerFilter = () => {
   return (
     <Stack>
       <h2>レビュアーフィルタリング設定</h2>
+      <p>レビュアーIDかレビュアー名のどちらかが設定されていれば動作します</p>
       <div>
         <Group align="flex-end">
           <TextInput
