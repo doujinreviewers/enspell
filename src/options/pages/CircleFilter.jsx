@@ -25,6 +25,7 @@ const CircleFilter = () => {
           placeholder={`サークル1\nRG123456`}
           autosize
           minRows={4}
+          maxRows={18}
           value={settings.ng_circles}
           onChange={handleTextChange('ng_circles')}
         />

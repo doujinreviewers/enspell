@@ -22,6 +22,7 @@ const ReviewerFilter = () => {
           placeholder={`レビュアー1\nREV123456`}
           autosize
           minRows={4}
+          maxRows={18}
           value={settings.ng_reviewers}
           onChange={handleTextChange('ng_reviewers')}
         />
