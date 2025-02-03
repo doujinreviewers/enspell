@@ -33,7 +33,7 @@ import { DLSITE_ENSPELL_STORAGE_KEY } from "../options/storage.js";
 
       let min = sales_count * sale_price
       let max = sales_count * normal_price
-      chrome.storage.sync.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
+      chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
         let settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
 
         if (settings.show_estimate == false) {

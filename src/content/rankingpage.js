@@ -18,7 +18,7 @@
   let all_cells = document.querySelectorAll(".n_worklist > tbody > tr");
   let category_cells = document.querySelectorAll("li.ranking_top_worklist_item");
   
-  chrome.storage.sync.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
+  chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
     let settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
 
     if(!settings.enable_ranking){

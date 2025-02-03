@@ -15,7 +15,7 @@
     };
   }
 
-  chrome.storage.sync.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
+  chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
     let settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
 
     if(!settings.enable_product){
