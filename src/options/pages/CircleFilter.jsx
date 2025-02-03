@@ -1,12 +1,13 @@
-import React from 'react';
-import { Checkbox, Stack, Textarea } from '@mantine/core';
+import React, { useState } from 'react';
+import { Checkbox, Stack, TextInput, Group, Button } from '@mantine/core';
 import useSettings from '../hooks/useSettings';
+import CircleTable from '../components/CircleTable';
 
 
 const CircleFilter = () => {
 
-  const { settings, handleChange, handleTextChange } = useSettings({
-    ng_circles: '',
+  const { settings, handleChange, handleCircleBlockListChange } = useSettings({
+    ng_circles: [],
     show_ng_count: false,
     enable_top: false,
     enable_search: false,
@@ -15,20 +16,47 @@ const CircleFilter = () => {
     enable_new: false,
   });
 
+  const [circleId, setCircleId] = useState('');
+  const [circleName, setCircleName] = useState('');
+
+  const handleAddCircle = () => {
+    if (!circleId.trim() && !circleName.trim()) return;
+
+    const newCircle = { id: circleId, name: circleName };
+    const updatedCircles = [...settings.ng_circles, newCircle];
+
+    handleCircleBlockListChange('ng_circles', updatedCircles);
+    setCircleId('');
+    setCircleName('');
+  };
+
+  const handleUpdateCircles = (updatedCircles) => {
+    handleCircleBlockListChange('ng_circles', updatedCircles);
+  };
+
   return (
     <Stack>
       <h2>サークルフィルタリング設定</h2>
+      <p>サークルIDかサークル名のどちらかが設定されていれば動作します</p>
       <div>
-        <Textarea
-          label="非表示にするサークルの名前またはRGを含むサークルのID"
-          description="1行に1サークルを記入してください"
-          placeholder={`サークル1\nRG123456`}
-          autosize
-          minRows={4}
-          maxRows={18}
-          value={settings.ng_circles}
-          onChange={handleTextChange('ng_circles')}
-        />
+        <Group align="flex-end">
+          <TextInput
+            label="サークルID"
+            placeholder="RG123456"
+            value={circleId}
+            onChange={(e) => setCircleId(e.target.value)}
+          />
+          <TextInput
+            label="サークル名"
+            placeholder="サークル1"
+            value={circleName}
+            onChange={(e) => setCircleName(e.target.value)}
+          />
+          <Button onClick={handleAddCircle}>追加</Button>
+        </Group>
+      </div>
+      <div>
+        <CircleTable circles={settings.ng_circles} handleUpdateCircles={handleUpdateCircles} />
       </div>
 
       <h2>非表示件数の表示設定</h2>
