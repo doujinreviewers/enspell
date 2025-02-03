@@ -11,6 +11,8 @@ const Home = () => {
 
       <Title order={3}>サークルフィルタリング設定</Title>
       <p>DLsiteの画面上で非表示にするサークルを指定できます</p>
+      <Title order={3}>レビュアーフィルタリング設定</Title>
+      <p>DLsiteの画面上で非表示にするレビュアーを指定できます</p>
       <Title order={3}>売上推計表示設定</Title>
       <p>DLsiteの作品ページにその作品の推定売上額が表示されるようになります</p>
 

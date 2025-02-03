@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { AppShell, Burger, Group, Badge, NavLink } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IconHome2, IconCancel, IconCoinYen } from '@tabler/icons-react';
+import { IconHome2, IconCancel, IconCoinYen, IconMessageX } from '@tabler/icons-react';
 import Home from '../pages/Home';
 import CircleFilter from '../pages/CircleFilter';
 import Estimate from '../pages/Estimate';
@@ -37,16 +37,16 @@ export function EnspellAppShell() {
           onClick={() => setActivePage('circle_filter')}
         />
         <NavLink
+          label="レビュアーフィルタリング設定"
+          leftSection={<IconMessageX size={16} stroke={1.5} />}
+          active={activePage === 'reviewer_filter'}
+          onClick={() => setActivePage('reviewer_filter')}
+        />
+        <NavLink
           label="売上推計表示設定"
           leftSection={<IconCoinYen size={16} stroke={1.5} />}
           active={activePage === 'estimate'}
           onClick={() => setActivePage('estimate')}
-        />
-        <NavLink
-          label="レビュアーフィルタリング設定"
-          leftSection={<IconCancel size={16} stroke={1.5} />}
-          active={activePage === 'reviewer_filter'}
-          onClick={() => setActivePage('reviewer_filter')}
         />
       </AppShell.Navbar>
       <AppShell.Main>
