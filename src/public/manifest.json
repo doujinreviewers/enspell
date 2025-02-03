@@ -43,6 +43,11 @@
       "matches": ["*://*.dlsite.com/*/work/=/product_id/*"],
       "js": ["content/estimate.js", "content/reviewer_product.js"],
       "css": ["style.css"]
+    },
+    {
+      "matches": ["*://*.dlsite.com/*/work/reviewlist/=/product_id/*/"],
+      "js": ["content/reviewer_product_reviewlist.js"],
+      "run_at": "document_end"
     }
   ],
 
