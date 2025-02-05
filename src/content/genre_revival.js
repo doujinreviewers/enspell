@@ -10,12 +10,21 @@
   const replaceText = (text) => {
     let newText = text;
     let changed = false;
+
     genre_mapping.forEach(({ ng, ok }) => {
       if (newText.includes(ng)) {
-        newText = newText.replace(new RegExp(ng, "g"), ok);
-        changed = true;
+        if (ng === "逆レ") {
+          // 2回目以降の変換がどうにもならないので特殊対応
+          const parts = newText.split(" ");
+          newText = parts.map(word => word === "逆レ" ? ok : word).join(" ");
+          changed = true;
+        } else {
+          newText = newText.replace(new RegExp(ng, "g"), ok);
+          changed = true;
+        }
       }
     });
+
     return changed ? newText : null;
   };
 
@@ -23,30 +32,24 @@
     const elements = document.querySelectorAll("a.btn_default, a[href='#'], a[href*='genre/']");
 
     elements.forEach(element => {
-      const originalText = element.dataset.originalText || element.textContent;
       element.childNodes.forEach(node => {
         if (node.nodeType === Node.TEXT_NODE) {
-          if (!element.dataset.replaced || (element.dataset.originalText && node.textContent !== element.dataset.originalText)) {
-            const newText = replaceText(node.textContent);
-            if (newText !== null) {
-              node.textContent = newText;
-              element.dataset.originalText = originalText;
-              element.dataset.replaced = "true";
-            }
+          const newText = replaceText(node.textContent);
+          if (newText !== null) {
+            node.textContent = newText;
           }
         }
       });
     });
   };
 
-
-  revival()
+  revival();
 
   const observer = new MutationObserver(() => {
     revival();
   });
 
-  
+  // 検索タグ
   const search_tag_items = document.querySelector(".search_tag_items");
   if (search_tag_items) {
     observer.observe(search_tag_items, { childList: true, subtree: true });
