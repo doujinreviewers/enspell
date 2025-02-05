@@ -16,37 +16,45 @@
     {
       "matches": ["*://*.dlsite.com/*/fsr/*", "*://*.dlsite.com/*/works/*"],
       "js": ["content/search.js"],
+      "type": "module",
       "run_at": "document_end"
     },
     {
       "matches": ["*://*.dlsite.com/*/", "*://*.dlsite.com/*"],
       "js": ["content/toppage.js"],
+      "type": "module",
       "run_at": "document_end"
     },
     {
       "matches": ["*://*.dlsite.com/*/ranking*"],
       "js": ["content/rankingpage.js"],
+      "type": "module",
       "run_at": "document_end"
     },
     {
       "matches": ["*://*.dlsite.com/*/announce/list*"],
       "js": ["content/announcepage.js"],
+      "type": "module",
       "run_at": "document_end"
     },
     {
       "matches": ["*://*.dlsite.com/*/new*"],
       "js": ["content/newpage.js"],
+      "type": "module",
       "run_at": "document_end"
     },
     {
       "exclude_matches": ["*://*.dlsite.com/*touch/work/=/product_id/*"],
       "matches": ["*://*.dlsite.com/*/work/=/product_id/*"],
       "js": ["content/estimate.js", "content/reviewer_product.js"],
-      "css": ["style.css"]
+      "css": ["style.css"],
+      "type": "module",
+      "run_at": "document_end"
     },
     {
       "matches": ["*://*.dlsite.com/*/work/reviewlist/=/product_id/*/"],
       "js": ["content/reviewer_product_reviewlist.js"],
+      "type": "module",
       "run_at": "document_end"
     }
   ],

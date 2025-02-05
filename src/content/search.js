@@ -1,58 +1,32 @@
-"use strict";
-{
-  const DLSITE_ENSPELL_STORAGE_KEY = 'dlsite_enspell_options';
+import { DLSITE_ENSPELL_STORAGE_KEY, filterCells } from './base_filter.js';
 
-  let judge = (ng_arr, id_or_name) => {
-    return ng_arr.some((ng_target) => {
-      return ng_target.id == id_or_name || ng_target.name == id_or_name;
-    });
-  };
+let type1_cells = document.querySelectorAll(".work_1col_table.n_worklist > tbody > tr");
+let type3_cells = document.querySelectorAll("#search_result_img_box > li");
 
-  let getMakerNameAndCircleNumber = (cell) => {
-    return {
-      maker_name: cell.querySelector(".maker_name a").textContent.trim(),
-      circle_number: cell.querySelector(".maker_name a").href.match(/RG\d*/)[0]
-    };
+chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
+  let settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
+
+  if(!settings.enable_search){
+    return;
   }
 
-  let type1_cells = document.querySelectorAll(".work_1col_table.n_worklist > tbody > tr");
-  let type3_cells = document.querySelectorAll("#search_result_img_box > li");
+  let cells = type1_cells.length != 0 ? type1_cells : type3_cells;
+  let ngcount = filterCells(cells, settings.ng_circles);
 
-  chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
-    let settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
-
-    if(!settings.enable_search){
-      return;
-    }
-
-    let cells = type1_cells.length != 0 ? type1_cells : type3_cells;
-    let ngcount = 0;
-
-    Array.from(cells).forEach((cell) => {
-      let { maker_name, circle_number } = getMakerNameAndCircleNumber(cell);
-
-      if (judge(settings.ng_circles, maker_name) || judge(settings.ng_circles, circle_number)){
-        cell.remove();
-        ngcount++;
+  if (settings.show_ng_count) {
+    let dom = document.querySelector("#wrapper");
+    let mo = new MutationObserver(function(record, observer) {
+      let page_total = document.querySelector(".page_total");
+      if(page_total){
+        page_total.innerHTML = page_total.innerHTML + `<strong>-${ngcount}</strong>件`
+        mo.disconnect();
       }
-    })
+    });
+    let config = {
+      childList: true,
+      subtree: true
+    };
+    mo.observe(dom, config);
+  }
 
-    if (settings.show_ng_count) {
-      let dom = document.querySelector("#wrapper");
-      let mo = new MutationObserver(function(record, observer) {
-        let page_total = document.querySelector(".page_total");
-        if(page_total){
-          page_total.innerHTML = page_total.innerHTML + `<strong>-${ngcount}</strong>件`
-          mo.disconnect();
-        }
-      });
-      let config = {
-        childList: true,
-        subtree: true
-      };
-      mo.observe(dom, config);
-    }
-
-  });
-
-}
+});
