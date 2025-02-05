@@ -17,6 +17,7 @@ export default defineConfig({
         'content/estimate': path.resolve(__dirname, 'src/content/estimate.js'),
         'content/reviewer_product': path.resolve(__dirname, 'src/content/reviewer_product.js'),
         'content/reviewer_product_reviewlist': path.resolve(__dirname, 'src/content/reviewer_product_reviewlist.js'),
+        'content/genre_revival': path.resolve(__dirname, 'src/content/genre_revival.js'),
         'options/options': path.resolve(__dirname, 'src/options/options.html'),
       },
       output: {

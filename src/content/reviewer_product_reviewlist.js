@@ -1,6 +1,6 @@
 (async () => {
 
-  const baseFilterModule = await import(chrome.runtime.getURL('base_filter.js'));
+  const baseFilterModule = await import(chrome.runtime.getURL('content/base_filter.js'));
   const { filterReviewCells, DLSITE_ENSPELL_STORAGE_KEY } = baseFilterModule;
 
   chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{

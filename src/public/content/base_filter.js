@@ -8,14 +8,14 @@ export const judge = (ng_arr, id_or_name) => {
 
 export const getMakerIdAndName = (cell) => {
   return {
-    id: cell.querySelector(".maker_name a").href.match(/RG\d*/)[0],
+    id: cell.querySelector(".maker_name a").href.match(/(RG|AJ)\d+/)[0],
     name: cell.querySelector(".maker_name a").textContent.trim()
   };
 };
 
 export const getReviewerIdAndName = (cell) => {
   return {
-    id: cell.querySelector(".reveiw_author_item a").href.match(/REV\d*/)[0],
+    id: cell.querySelector(".reveiw_author_item a").href.match(/REV\d+/)[0],
     name: cell.querySelector(".reveiw_author_item a").textContent.trim()
   };
 }
