@@ -26,12 +26,10 @@
     let works_type_ranking = document.querySelector("#_works_type_ranking");
 
     let works_type_rankings = works_type_ranking.querySelectorAll("li.swiper-slide");
-    if(works_type_rankings){
-      ngcount = filterCells(works_type_rankings, settings.ng_circles);
-      if (settings.show_ng_count) {
-        if(works_type_ranking.innerHTML && works_type_ranking.innerHTML.indexOf("人気ランキング (24時間)") != -1){
-          works_type_ranking.innerHTML = works_type_ranking.innerHTML.replace("人気ランキング (24時間)", `人気ランキング (24時間) -${ngcount}`)
-        }
+    ngcount = filterCells(works_type_rankings, settings.ng_circles);
+    if (settings.show_ng_count) {
+      if(works_type_ranking.innerHTML && works_type_ranking.innerHTML.indexOf("人気ランキング (24時間)") != -1){
+        works_type_ranking.innerHTML = works_type_ranking.innerHTML.replace("人気ランキング (24時間)", `人気ランキング (24時間) -${ngcount}`)
       }
     }
 
