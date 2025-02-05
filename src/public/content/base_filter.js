@@ -8,15 +8,15 @@ export const judge = (ng_arr, id_or_name) => {
 
 export const getMakerIdAndName = (cell) => {
   return {
-    maker_id: cell.querySelector(".maker_name a").href.match(/RG\d*/)[0],
-    maker_name: cell.querySelector(".maker_name a").textContent.trim()
+    id: cell.querySelector(".maker_name a").href.match(/RG\d*/)[0],
+    name: cell.querySelector(".maker_name a").textContent.trim()
   };
 };
 
 export const getReviewerIdAndName = (cell) => {
   return {
-    reviewer_id: cell.querySelector(".reveiw_author_item a").href.match(/REV\d*/)[0],
-    reviewer_name: cell.querySelector(".reveiw_author_item a").textContent.trim()
+    id: cell.querySelector(".reveiw_author_item a").href.match(/REV\d*/)[0],
+    name: cell.querySelector(".reveiw_author_item a").textContent.trim()
   };
 }
 
@@ -42,4 +42,14 @@ export const filterCells = (cells, ng_list, isReviewer = false) => {
 
 export const filterReviewCells = (cells, ng_list) => {
   return filterCells(cells, ng_list, true);
+};
+
+export const filterSingleCell = (cell, ng_list, isReviewer = false) => {
+  let { id, name } = isReviewer ? getReviewerIdAndName(cell) : getMakerIdAndName(cell);
+
+  if (judge(ng_list, id) || judge(ng_list, name)) {
+    cell.remove();
+    return 1;
+  }
+  return 0;
 };

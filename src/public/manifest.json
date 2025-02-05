@@ -12,6 +12,11 @@
 
   "permissions": ["storage"],
 
+  "web_accessible_resources": [{
+    "matches": ["<all_urls>"],
+    "resources": ["content/base_filter.js"]
+  }],
+
   "content_scripts": [
     {
       "matches": ["*://*.dlsite.com/*/fsr/*", "*://*.dlsite.com/*/works/*"],
