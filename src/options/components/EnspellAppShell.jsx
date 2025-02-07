@@ -6,6 +6,7 @@ import Home from '../pages/Home';
 import CircleFilter from '../pages/CircleFilter';
 import Estimate from '../pages/Estimate';
 import ReviewerFilter from '../pages/ReviewerFilter';
+import GenreRevival from '../pages/GenreRevival';
 
 export function EnspellAppShell() {
   const [opened, { toggle }] = useDisclosure();
@@ -48,12 +49,19 @@ export function EnspellAppShell() {
           active={activePage === 'estimate'}
           onClick={() => setActivePage('estimate')}
         />
+        <NavLink
+          label="規制ワード変換設定"
+          leftSection={<IconCoinYen size={16} stroke={1.5} />}
+          active={activePage === 'genre_revival'}
+          onClick={() => setActivePage('genre_revival')}
+        />
       </AppShell.Navbar>
       <AppShell.Main>
         {activePage === 'home' && <Home />}
         {activePage === 'circle_filter' && <CircleFilter />}
         {activePage === 'estimate' && <Estimate />}
         {activePage === 'reviewer_filter' && <ReviewerFilter />}
+        {activePage === 'genre_revival' && <GenreRevival />}
       </AppShell.Main>
     </AppShell>
   );

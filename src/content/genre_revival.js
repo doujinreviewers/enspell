@@ -3,6 +3,20 @@
   const baseFilterModule = await import(chrome.runtime.getURL('content/base_filter.js'));
   const { DLSITE_ENSPELL_STORAGE_KEY } = baseFilterModule;
 
+  const getSettings = () => {
+    return new Promise((resolve) => {
+      chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, (data) => {
+        resolve(data[DLSITE_ENSPELL_STORAGE_KEY] || {});
+      });
+    });
+  };
+
+  const settings = await getSettings();
+
+  if (!settings.enable_genre_revival) {
+    return;
+  }
+
   const response = await fetch(chrome.runtime.getURL('genre_mapping.json'));
   const genre_mapping = await response.json();
   genre_mapping.sort((a, b) => b.ng.length - a.ng.length);
@@ -76,7 +90,6 @@
     const openModalGenre = document.querySelector("#open_modal_genre");
 
     if (!openModalGenre) {
-      console.warn("`#open_modal_genre` がまだ存在しません。");
       return;
     }
 
