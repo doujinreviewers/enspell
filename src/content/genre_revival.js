@@ -29,15 +29,13 @@
   };
 
   const revival = () => {
-    const elements = document.querySelectorAll("a.btn_default, a[href='#'], a[href*='genre/']");
+    const elements = document.querySelectorAll("a.btn_default, a[href='#'], a[href*='genre/'], #modal_area_genre li > a, ul.select_content > li");
 
     elements.forEach(element => {
       element.childNodes.forEach(node => {
-        if (node.nodeType === Node.TEXT_NODE) {
-          const newText = replaceText(node.textContent);
-          if (newText !== null) {
-            node.textContent = newText;
-          }
+        const newText = replaceText(node.textContent);
+        if (newText !== null) {
+          node.textContent = newText;
         }
       });
     });
@@ -65,6 +63,46 @@
   const search_menu_overlay = document.querySelector('#container > div:not([id]):not([class]):not([name]):not([style])');
   if (search_menu_overlay) {
     observer.observe(search_menu_overlay, { childList: true, subtree: true });
+  }
+
+  // こだわり検索
+  const modal_area_genre = document.querySelector('#modal_area_genre');
+  if (modal_area_genre) {
+    observer.observe(modal_area_genre, { childList: true, subtree: true });
+  }
+
+  // 条件選択時
+  const waitForSelectContent = () => {
+    const openModalGenre = document.querySelector("#open_modal_genre");
+
+    if (!openModalGenre) {
+      console.warn("`#open_modal_genre` がまだ存在しません。");
+      return;
+    }
+
+    const parentElement = openModalGenre.parentNode;
+
+    const checkAndObserve = () => {
+      const selectContent = parentElement.querySelector("ul.select_content");
+
+      if (selectContent) {
+        revival();
+        observer.observe(selectContent, { childList: true, subtree: true, characterData: true });
+        modalObserver.disconnect();
+      }
+    };
+
+    const modalObserver = new MutationObserver(() => {
+      checkAndObserve();
+    });
+
+    modalObserver.observe(parentElement, { childList: true, subtree: true });
+
+    checkAndObserve();
+  };
+
+  if (document.querySelector("#open_modal_genre")) {
+    waitForSelectContent();
   }
 
 })();

@@ -3,6 +3,8 @@
   "name": "Enspell",
   "version": "0.0.1",
   "description": "DLsiteをもっと快適に楽しむためのツール",
+  "author": "同人Reviewers",
+  "homepage_url": "https://github.com/doujinreviewers/enspell",
 
   "icons": {
     "16": "icons/icon16.png",
@@ -59,6 +61,12 @@
     {
       "matches": ["*://*.dlsite.com/*/work/reviewlist/=/product_id/*/"],
       "js": ["content/reviewer_product_reviewlist.js", "content/genre_revival.js"],
+      "type": "module",
+      "run_at": "document_end"
+    },
+    {
+      "matches": ["*://*.dlsite.com/*/fs"],
+      "js": ["content/genre_revival.js"],
       "type": "module",
       "run_at": "document_end"
     }
