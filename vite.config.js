@@ -9,6 +9,7 @@ export default defineConfig({
     emptyOutDir: true,
     rollupOptions: {
       input: {
+        'background/background': path.resolve(__dirname, 'src/background/background.js'),
         'content/search': path.resolve(__dirname, 'src/content/search.js'),
         'content/announcepage': path.resolve(__dirname, 'src/content/announcepage.js'),
         'content/newpage': path.resolve(__dirname, 'src/content/newpage.js'),
@@ -18,6 +19,7 @@ export default defineConfig({
         'content/reviewer_product': path.resolve(__dirname, 'src/content/reviewer_product.js'),
         'content/reviewer_product_reviewlist': path.resolve(__dirname, 'src/content/reviewer_product_reviewlist.js'),
         'content/genre_revival': path.resolve(__dirname, 'src/content/genre_revival.js'),
+        'content/review_sort': path.resolve(__dirname, 'src/content/review_sort.js'),
         'options/options': path.resolve(__dirname, 'src/options/options.html'),
       },
       output: {

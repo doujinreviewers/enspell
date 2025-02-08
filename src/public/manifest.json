@@ -12,63 +12,66 @@
     "128": "icons/icon128.png"
   },
 
-  "permissions": ["storage"],
+  "permissions": ["storage", "scripting", "tabs"],
+  "host_permissions": ["*://*.dlsite.com/*"],
 
-  "web_accessible_resources": [{
-    "matches": ["<all_urls>"],
-    "resources": ["content/base_filter.js", "genre_mapping.json"]
-  }],
+  "web_accessible_resources": [
+    {
+      "matches": ["<all_urls>"],
+      "resources": ["content/base_filter.js", "genre_mapping.json"]
+    },
+    {
+      "matches": ["*://*.dlsite.com/*"],
+      "resources": ["inject.js", "components.js"]
+    }
+  ],
+
+  "background": {
+    "service_worker": "background/background.js"
+  },
 
   "content_scripts": [
     {
       "matches": ["*://*.dlsite.com/*/fsr/*", "*://*.dlsite.com/*/works/*"],
       "js": ["content/search.js"],
-      "type": "module",
-      "run_at": "document_end"
+      "type": "module"
     },
     {
       "matches": ["*://*.dlsite.com/*/", "*://*.dlsite.com/*"],
       "js": ["content/toppage.js", "content/genre_revival.js"],
-      "type": "module",
-      "run_at": "document_end"
+      "type": "module"
     },
     {
       "matches": ["*://*.dlsite.com/*/ranking*"],
       "js": ["content/rankingpage.js"],
-      "type": "module",
-      "run_at": "document_end"
+      "type": "module"
     },
     {
       "matches": ["*://*.dlsite.com/*/announce/list*"],
       "js": ["content/announcepage.js"],
-      "type": "module",
-      "run_at": "document_end"
+      "type": "module"
     },
     {
       "matches": ["*://*.dlsite.com/*/new*"],
       "js": ["content/newpage.js"],
-      "type": "module",
-      "run_at": "document_end"
+      "type": "module"
     },
     {
       "exclude_matches": ["*://*.dlsite.com/*touch/work/=/product_id/*"],
       "matches": ["*://*.dlsite.com/*/work/=/product_id/*"],
       "js": ["content/estimate.js", "content/reviewer_product.js"],
       "css": ["style.css"],
-      "type": "module",
-      "run_at": "document_end"
+      "type": "module"
     },
     {
       "matches": ["*://*.dlsite.com/*/work/reviewlist/=/product_id/*/"],
       "js": ["content/reviewer_product_reviewlist.js", "content/genre_revival.js"],
-      "type": "module",
-      "run_at": "document_end"
+      "type": "module"
     },
     {
       "matches": ["*://*.dlsite.com/*/fs"],
       "js": ["content/genre_revival.js"],
-      "type": "module",
-      "run_at": "document_end"
+      "type": "module"
     }
   ],
 
