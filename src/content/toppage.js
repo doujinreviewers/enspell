@@ -31,7 +31,7 @@
       return;
     }
 
-    let ngcount = filterCells(top_total_ranking_cells, settings.ng_circles);
+    let ngcount = filterCells(top_total_ranking_cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
 
     if(subheading[0] && settings.show_ng_count){
       subheading[0].innerHTML = subheading[0].innerHTML.replace("総合ランキング", `総合ランキング -${ngcount}`)
@@ -43,9 +43,9 @@
       Array.from(type_genre_ranking_cells).forEach((cell) => {
         if(cell.querySelector("ul.genre_ranking_sub")){
           let sub_cells = cell.querySelector("ul.genre_ranking_sub li");
-          ngcount += filterCells(sub_cells, settings.ng_circles);
+          ngcount += filterCells(sub_cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
         }else{
-          ngcount += filterSingleCell(cell, settings.ng_circles);
+          ngcount += filterSingleCell(cell, settings.ng_circles, false, settings.hide_ng_by_dlsite);
         }
       })
 
@@ -67,7 +67,7 @@
     let mo = new MutationObserver(function(record, observer) {
       let cells = discount_cells.querySelectorAll("li.swiper-slide");
       if(cells){
-        ngcount = filterCells(cells, settings.ng_circles);
+        ngcount = filterCells(cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
 
         if (settings.show_ng_count) {
           Array.from(titles).forEach((cell) => {
@@ -85,7 +85,7 @@
     let r_mo = new MutationObserver(function(record, observer) {
       let cells = recommend_cells.querySelectorAll("li.swiper-slide");
       if(cells){
-        ngcount = filterCells(cells, settings.ng_circles);
+        ngcount = filterCells(cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
 
         if (settings.show_ng_count) {
           Array.from(titles).forEach((cell) => {
@@ -109,7 +109,7 @@
         let cells = block.querySelectorAll(".n_worklist_item");
         let check_flag = block.getAttribute("data-filtered");
         if(cells && check_flag != "true"){
-          ngcount = filterCells(cells, settings.ng_circles);
+          ngcount = filterCells(cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
 
           let subheading_cell = block.querySelector(".work_subheading");
           if(subheading_cell.innerHTML && settings.show_ng_count){

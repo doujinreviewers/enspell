@@ -21,7 +21,7 @@
       let cells = type1_cells.length != 0 ? type1_cells : type3_cells;
       let ngcount = 0;
       if(cells){
-        ngcount = filterCells(cells, settings.ng_circles);
+        ngcount = filterCells(cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
       }
   
       if (settings.show_ng_count) {
@@ -42,7 +42,7 @@
 
     if(works_type_ranking){
       let works_type_rankings = works_type_ranking.querySelectorAll("li.swiper-slide");
-      ngcount = filterCells(works_type_rankings, settings.ng_circles);
+      ngcount = filterCells(works_type_rankings, settings.ng_circles, false, settings.hide_ng_by_dlsite);
       if (settings.show_ng_count) {
         if(works_type_ranking.innerHTML && works_type_ranking.innerHTML.indexOf("人気ランキング (24時間)") != -1){
           works_type_ranking.innerHTML = works_type_ranking.innerHTML.replace("人気ランキング (24時間)", `人気ランキング (24時間) -${ngcount}`)

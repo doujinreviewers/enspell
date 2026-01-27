@@ -18,7 +18,11 @@ export const getReviewerIdAndName = (cell) => {
     id: cell.querySelector(".reveiw_author_item a").href.match(/REV\d+/)[0],
     name: cell.querySelector(".reveiw_author_item a").textContent.trim()
   };
-}
+};
+
+const isDlsiteNgCell = (cell) => {
+  return !!cell.querySelector('img._censored');
+};
 
 /**
  * 指定されたセル群から条件に一致するセルを削除し、削除件数を返す
@@ -27,12 +31,20 @@ export const getReviewerIdAndName = (cell) => {
  * @param {Boolean} isReviewer - `ng_circles`ならfalse、`ng_reviewers`ならtrue
  * @returns {number} 削除件数
  */
-export const filterCells = (cells, ng_list, isReviewer = false) => {
+export const filterCells = (cells, ng_list, isReviewer = false, hideDlsiteNg = false) => {
   let ngcount = 0;
   Array.from(cells).forEach((cell) => {
+    if (hideDlsiteNg && isDlsiteNgCell(cell)) {
+      cell.remove();
+      ngcount++;
+      return;
+    }
     let { id, name } = isReviewer ? getReviewerIdAndName(cell) : getMakerIdAndName(cell);
 
-    if (judge(ng_list, id) || judge(ng_list, name)) {
+    if (
+      judge(ng_list, id) ||
+      judge(ng_list, name)
+    ) {
       cell.remove();
       ngcount++;
     }
@@ -44,7 +56,11 @@ export const filterReviewCells = (cells, ng_list) => {
   return filterCells(cells, ng_list, true);
 };
 
-export const filterSingleCell = (cell, ng_list, isReviewer = false) => {
+export const filterSingleCell = (cell, ng_list, isReviewer = false, hideDlsiteNg = false) => {
+  if (hideDlsiteNg && isDlsiteNgCell(cell)) {
+    cell.remove();
+    return 1;
+  }
   let { id, name } = isReviewer ? getReviewerIdAndName(cell) : getMakerIdAndName(cell);
 
   if (judge(ng_list, id) || judge(ng_list, name)) {

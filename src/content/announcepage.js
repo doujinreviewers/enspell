@@ -11,7 +11,7 @@
     }
 
     let cells = document.querySelectorAll(".n_worklist_item");
-    let ngcount = filterCells(cells, settings.ng_circles);
+    let ngcount = filterCells(cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
 
     if (settings.show_ng_count) {
       let heading = document.querySelector("h3.work_update");

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Enspell",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "DLsiteをもっと快適に楽しむためのツール",
   "author": "同人Reviewers",
   "homepage_url": "https://github.com/doujinreviewers/enspell",

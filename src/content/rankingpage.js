@@ -14,7 +14,7 @@
     }
 
     let cells = all_cells.length != 0 ? all_cells : category_cells;
-    let ngcount = filterCells(cells, settings.ng_circles);
+    let ngcount = filterCells(cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
 
     if (settings.show_ng_count) {
       let heading = document.querySelector("h1");

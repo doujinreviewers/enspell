@@ -14,6 +14,7 @@ const CircleFilter = () => {
     enable_ranking: false,
     enable_announce: false,
     enable_new: false,
+    hide_ng_by_dlsite: false,
   });
 
   const [circleId, setCircleId] = useState('');
@@ -36,7 +37,7 @@ const CircleFilter = () => {
 
   return (
     <Stack>
-      <h2>サークルフィルタリング設定</h2>
+      <h2>作品フィルタリング設定</h2>
       <p>サークルIDかサークル名のどちらかが設定されていれば動作します</p>
       <div>
         <Group align="flex-end">
@@ -91,6 +92,13 @@ const CircleFilter = () => {
         label="発売カレンダーページ"
         checked={settings.enable_new}
         onChange={handleChange('enable_new')}
+      />
+
+      <h2>その他フィルタリング設定</h2>
+      <Checkbox
+        label="DLsiteの表示NG設定で非表示になっている作品を非表示にする"
+        checked={settings.hide_ng_by_dlsite}
+        onChange={handleChange('hide_ng_by_dlsite')}
       />
     </Stack>
   );
