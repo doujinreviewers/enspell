@@ -1,11 +1,12 @@
 {
   "name": "enspell",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "release:zip": "npm test && npm run build && node scripts/create-release-zip.mjs",
     "test": "node --test",
     "preview": "vite preview"
   },
