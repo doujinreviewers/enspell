@@ -1,6 +1,6 @@
 (async () => {
 
-  const baseFilterModule = await import(chrome.runtime.getURL('base_filter.js'));
+  const baseFilterModule = await import(chrome.runtime.getURL('content/base_filter.js'));
   const { filterCells, DLSITE_ENSPELL_STORAGE_KEY } = baseFilterModule;
 
   let all_cells = document.querySelectorAll(".n_worklist > tbody > tr");

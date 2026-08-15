@@ -1,15 +1,26 @@
 export const DLSITE_ENSPELL_STORAGE_KEY = 'dlsite_enspell_options';
 
 export const judge = (ng_arr, id_or_name) => {
+  if (!Array.isArray(ng_arr) || !id_or_name) {
+    return false;
+  }
+
   return ng_arr.some((ng_target) => {
+    if (!ng_target) {
+      return false;
+    }
+
     return ng_target.id == id_or_name || ng_target.name == id_or_name;
   });
 };
 
 export const getMakerIdAndName = (cell) => {
+  const makerLink = cell.querySelector(".maker_name a");
+  const makerId = makerLink?.href.match(/(RG|AJ)\d+/)?.[0] || '';
+
   return {
-    id: cell.querySelector(".maker_name a").href.match(/(RG|AJ)\d+/)[0],
-    name: cell.querySelector(".maker_name a").textContent.trim()
+    id: makerId,
+    name: makerLink?.textContent.trim() || ''
   };
 };
 
@@ -20,8 +31,11 @@ export const getReviewerIdAndName = (cell) => {
   };
 };
 
-const isDlsiteNgCell = (cell) => {
-  return !!cell.querySelector('img._censored');
+export const isDlsiteNgCell = (cell) => {
+  return !!(
+    cell.matches?.('._filter, ._censored') ||
+    cell.querySelector('._filter, ._censored')
+  );
 };
 
 /**
@@ -39,6 +53,11 @@ export const filterCells = (cells, ng_list, isReviewer = false, hideDlsiteNg = f
       ngcount++;
       return;
     }
+
+    if (!Array.isArray(ng_list) || ng_list.length === 0) {
+      return;
+    }
+
     let { id, name } = isReviewer ? getReviewerIdAndName(cell) : getMakerIdAndName(cell);
 
     if (
@@ -61,6 +80,11 @@ export const filterSingleCell = (cell, ng_list, isReviewer = false, hideDlsiteNg
     cell.remove();
     return 1;
   }
+
+  if (!Array.isArray(ng_list) || ng_list.length === 0) {
+    return 0;
+  }
+
   let { id, name } = isReviewer ? getReviewerIdAndName(cell) : getMakerIdAndName(cell);
 
   if (judge(ng_list, id) || judge(ng_list, name)) {
