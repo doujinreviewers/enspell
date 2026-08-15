@@ -13,6 +13,10 @@ dist-ssr
 artifacts
 *.local
 
+# Local agent instructions and development notes
+/AGENTS.md
+/docs/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
