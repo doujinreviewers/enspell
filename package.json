@@ -3,6 +3,9 @@
   "private": true,
   "version": "0.0.3",
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -11,6 +14,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
+    "bestzip": "^3.0.2",
     "postcss": "^8.5.1",
     "postcss-preset-mantine": "^1.17.0",
     "postcss-simple-vars": "^7.0.1",
