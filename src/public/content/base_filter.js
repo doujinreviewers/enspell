@@ -33,8 +33,8 @@ export const getReviewerIdAndName = (cell) => {
 
 export const isDlsiteNgCell = (cell) => {
   return !!(
-    cell.matches?.('._filter, ._censored') ||
-    cell.querySelector('._filter, ._censored')
+    cell.matches?.('._filter, ._censored, .shouldFilter') ||
+    cell.querySelector('._filter, ._censored, .shouldFilter')
   );
 };
 

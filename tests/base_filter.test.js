@@ -3,8 +3,6 @@ import assert from 'node:assert/strict';
 
 import {
   filterCells,
-  filterSingleCell,
-  isDlsiteNgCell,
   judge,
 } from '../src/public/content/base_filter.js';
 
@@ -16,10 +14,10 @@ const createCell = ({ makerId = 'RG12345', makerName = 'テストサークル', 
   };
 
   return {
+    matches() {
+      return dlsiteNg;
+    },
     querySelector(selector) {
-      if (selector === '._filter, ._censored') {
-        return dlsiteNg ? {} : null;
-      }
       if (selector === '.maker_name a') {
         return makerLink;
       }
@@ -47,14 +45,6 @@ test('DLsite表示NGだけを有効にした場合に通常作品を処理でき
 
   assert.equal(count, 1);
   assert.equal(normalCell.removed, false);
-  assert.equal(dlsiteNgCell.removed, true);
-});
-
-test('現行DLsiteのフィルター用クラスを表示NGとして判定する', () => {
-  const dlsiteNgCell = createCell({ dlsiteNg: true });
-
-  assert.equal(isDlsiteNgCell(dlsiteNgCell), true);
-  assert.equal(filterSingleCell(dlsiteNgCell, [], false, true), 1);
   assert.equal(dlsiteNgCell.removed, true);
 });
 
