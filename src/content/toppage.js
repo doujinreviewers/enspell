@@ -7,6 +7,7 @@
   const baseFilterModule = await import(chrome.runtime.getURL('content/base_filter.js'));
   const { filterCells, filterSingleCell, DLSITE_ENSPELL_STORAGE_KEY } = baseFilterModule;
   const { observeNewWorks } = await import(chrome.runtime.getURL('content/new_work_filter.js'));
+  const { observeTopRankings } = await import(chrome.runtime.getURL('content/top_ranking_filter.js'));
 
   let recommend_list = document.querySelectorAll(".recommend_list.type_top");
   let top_total_ranking_cells = document.querySelectorAll("._top_total_ranking li");
@@ -33,6 +34,7 @@
     }
 
     observeNewWorks(document, settings);
+    observeTopRankings(document, settings);
 
     let ngcount = filterCells(top_total_ranking_cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
 

@@ -16,7 +16,7 @@
 
   "web_accessible_resources": [{
     "matches": ["<all_urls>"],
-    "resources": ["content/base_filter.js", "content/new_work_filter.js", "genre_mapping.json"]
+    "resources": ["content/base_filter.js", "content/new_work_filter.js", "content/top_ranking_filter.js", "genre_mapping.json"]
   }],
 
   "content_scripts": [
