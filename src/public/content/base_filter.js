@@ -26,9 +26,10 @@ export const getMakerIdAndName = (cell) => {
 };
 
 export const getReviewerIdAndName = (cell) => {
+  const link = cell.querySelector('.reveiw_author_item a, .c-review__writer a');
   return {
-    id: cell.querySelector(".reveiw_author_item a").href.match(/REV\d+/)[0],
-    name: cell.querySelector(".reveiw_author_item a").textContent.trim()
+    id: link?.href.match(/REV\d+/)?.[0] || '',
+    name: link?.textContent.trim() || ''
   };
 };
 

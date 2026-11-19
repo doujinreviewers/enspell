@@ -1,25 +1,9 @@
 (async () => {
-
-  const baseFilterModule = await import(chrome.runtime.getURL('content/base_filter.js'));
-  const { filterReviewCells, DLSITE_ENSPELL_STORAGE_KEY } = baseFilterModule;
-
-  chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
-    let settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
-
-    if(!settings.enable_review_list){
-      return;
-    }
-
-    let cells = document.querySelectorAll(".review_contents");
-    let ngcount = filterReviewCells(cells, settings.ng_reviewers)
-
-    if (settings.show_reviewer_ng_count) {
-      let page_total = document.querySelector("#main_inner .page_total");
-      if(page_total){
-        page_total.innerHTML = page_total.innerHTML + `<strong>-${ngcount}</strong>件`
-      }
-    }
-
-  });
-
+  const { DLSITE_ENSPELL_STORAGE_KEY } = await import(chrome.runtime.getURL('content/base_filter.js'));
+  const { observeFilteredBlocks } = await import(chrome.runtime.getURL('content/list_filter.js'));
+  const { waitForTopPageReady: waitForPageReady } = await import(chrome.runtime.getURL('content/top_ranking_filter.js'));
+  const settings = await new Promise(resolve => chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, data => resolve(data[DLSITE_ENSPELL_STORAGE_KEY] || {})));
+  if (!settings.enable_review_list) return;
+  await waitForPageReady(document);
+  observeFilteredBlocks(document, settings, [{"root":"#main_inner","cells":".review_contents","heading":".page_total"}], true);
 })();

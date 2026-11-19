@@ -108,3 +108,10 @@ test('完了通知だけをMAIN worldで実行し、作品操作と設定取得�
   assert.deepEqual(bridge.matches, filter.matches);
   assert.ok(filter.world === undefined || filter.world === 'ISOLATED');
 });
+
+test('Nuxt作品ページでも初期描画完了を通知する', t => {
+  const dom = createDOM(t, '<div id="__nuxt"></div>', 'https://www.dlsite.com/maniax/work/=/product_id/RJ1.html');
+  dom.window.useNuxtApp = () => ({ isHydrating: false });
+  dom.window.eval(readySource);
+  assert.equal(dom.window.document.documentElement.hasAttribute(signal), true);
+});

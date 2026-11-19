@@ -1,6 +1,7 @@
 // MAIN worldで初期描画完了だけを通知する。拡張機能の設定やAPIにはアクセスしない。
 (() => {
-  if (!/^\/[^/]+\/?$/.test(location.pathname)) return;
+  if (!/^\/[^/]+\/?$/.test(location.pathname) &&
+      !/^\/[^/]+\/work\/(?:=|reviewlist\/)/.test(location.pathname)) return;
 
   const markReady = () => document.documentElement.setAttribute('data-enspell-top-ready', '');
   const check = () => {
