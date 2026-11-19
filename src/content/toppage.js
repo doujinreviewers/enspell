@@ -6,6 +6,7 @@
 
   const baseFilterModule = await import(chrome.runtime.getURL('content/base_filter.js'));
   const { filterCells, filterSingleCell, DLSITE_ENSPELL_STORAGE_KEY } = baseFilterModule;
+  const { observeNewWorks } = await import(chrome.runtime.getURL('content/new_work_filter.js'));
 
   let recommend_list = document.querySelectorAll(".recommend_list.type_top");
   let top_total_ranking_cells = document.querySelectorAll("._top_total_ranking li");
@@ -30,6 +31,8 @@
     if (!settings.enable_top) {
       return;
     }
+
+    observeNewWorks(document, settings);
 
     let ngcount = filterCells(top_total_ranking_cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
 
@@ -79,7 +82,7 @@
         mo.disconnect();
       }
     });
-    mo.observe(dom, config);
+    if (dom instanceof Element) mo.observe(dom, config);
 
     let r_dom = recommend_cells;
     let r_mo = new MutationObserver(function(record, observer) {
@@ -98,29 +101,7 @@
         r_mo.disconnect();
       }
     });
-    r_mo.observe(r_dom, config);
-
-    let new_worklist = document.querySelector("#new_worklist");
-    let n_dom = new_worklist;
-    let n_mo = new MutationObserver(function(record, observer) {
-      let work_blocks = new_worklist.querySelectorAll(".work_block");
-
-      Array.from(work_blocks).forEach((block) => {
-        let cells = block.querySelectorAll(".n_worklist_item");
-        let check_flag = block.getAttribute("data-filtered");
-        if(cells && check_flag != "true"){
-          ngcount = filterCells(cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
-
-          let subheading_cell = block.querySelector(".work_subheading");
-          if(subheading_cell.innerHTML && settings.show_ng_count){
-            subheading_cell.innerHTML = subheading_cell.innerHTML + `-${ngcount}本`
-          }
-          block.setAttribute("data-filtered", "true");
-        }
-      })
-
-    });
-    n_mo.observe(n_dom, config);
+    if (r_dom instanceof Element) r_mo.observe(r_dom, config);
 
   });
 

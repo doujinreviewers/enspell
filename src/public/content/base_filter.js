@@ -15,7 +15,8 @@ export const judge = (ng_arr, id_or_name) => {
 };
 
 export const getMakerIdAndName = (cell) => {
-  const makerLink = cell.querySelector(".maker_name a");
+  const makerLink = cell.querySelector(".maker_name a") ||
+    cell.querySelector('.c-mediaBlock__author > a[href*="/maker_id/"]');
   const makerId = makerLink?.href.match(/(RG|AJ)\d+/)?.[0] || '';
 
   return {
@@ -33,8 +34,8 @@ export const getReviewerIdAndName = (cell) => {
 
 export const isDlsiteNgCell = (cell) => {
   return !!(
-    cell.matches?.('._filter, ._censored, .shouldFilter') ||
-    cell.querySelector('._filter, ._censored, .shouldFilter')
+    cell.matches?.('._filter, ._censored, .shouldFilter, .c-mediaBlock__filter') ||
+    cell.querySelector('._filter, ._censored, .shouldFilter, .c-mediaBlock__filter')
   );
 };
 
