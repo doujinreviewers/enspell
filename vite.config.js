@@ -14,6 +14,7 @@ export default defineConfig({
         'content/newpage': path.resolve(__dirname, 'src/content/newpage.js'),
         'content/rankingpage': path.resolve(__dirname, 'src/content/rankingpage.js'),
         'content/toppage': path.resolve(__dirname, 'src/content/toppage.js'),
+        'content/top_page_ready': path.resolve(__dirname, 'src/content/top_page_ready.js'),
         'content/estimate': path.resolve(__dirname, 'src/content/estimate.js'),
         'content/reviewer_product': path.resolve(__dirname, 'src/content/reviewer_product.js'),
         'content/reviewer_product_reviewlist': path.resolve(__dirname, 'src/content/reviewer_product_reviewlist.js'),

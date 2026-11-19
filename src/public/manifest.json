@@ -33,6 +33,12 @@
       "run_at": "document_end"
     },
     {
+      "matches": ["*://*.dlsite.com/*/", "*://*.dlsite.com/*"],
+      "js": ["content/top_page_ready.js"],
+      "world": "MAIN",
+      "run_at": "document_end"
+    },
+    {
       "matches": ["*://*.dlsite.com/*/ranking*"],
       "js": ["content/rankingpage.js"],
       "type": "module",

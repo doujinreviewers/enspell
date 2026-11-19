@@ -3,6 +3,26 @@ import { filterCells } from './base_filter.js';
 const ROOT_SELECTOR = '.ranking-content-pc';
 const CELL_SELECTOR = '.keen-slider__slide, .ranking-top3__main, .ranking-top3__sub-item';
 
+// SSRの要素をhydration中に削除すると、別作品の王冠やリンクが対応付けられてしまう。
+// ページ側の状態はisolated worldから読めないため、MAIN worldの完了通知を待つ。
+export const waitForTopPageReady = (document) => {
+  const ready = () => !document.getElementById('__nuxt') ||
+    document.documentElement.hasAttribute('data-enspell-top-ready');
+  if (ready()) return Promise.resolve();
+
+  return new Promise((resolve) => {
+    const observer = new document.defaultView.MutationObserver(() => {
+      if (!ready()) return;
+      observer.disconnect();
+      resolve();
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-enspell-top-ready'],
+    });
+  });
+};
+
 // 現行トップの総合・ジャンル別ランキング。順位バッジと外枠も作品ごと削除する。
 export const observeTopRankings = (document, settings) => {
   if (!settings.enable_top || !document.body) return;
