@@ -8,7 +8,8 @@
   {
     "root": "#main_inner",
     "cells": ".work_1col_table.n_worklist > tbody > tr, #search_result_img_box > li",
-    "heading": ".base_title_br .original_name"
+    "heading": ".base_title_br .original_name",
+    "countCurrentResults": true
   },
   {
     "root": "#_works_type_ranking",

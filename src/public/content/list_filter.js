@@ -21,15 +21,41 @@ export const observeFilteredBlocks = (document, settings, specs, isReviewer = fa
   return observeDocument(document, () => {
     specs.forEach((spec, index) => {
       for (const root of document.querySelectorAll(spec.root)) {
-        const removed = filterCells(root.querySelectorAll(spec.cells),
-          isReviewer ? settings.ng_reviewers : settings.ng_circles,
-          isReviewer, !isReviewer && settings.hide_ng_by_dlsite);
-        const count = (totals[index].get(root) || 0) + removed;
-        totals[index].set(root, count);
-        if (!(isReviewer ? settings.show_reviewer_ng_count : settings.show_ng_count) || !count) continue;
+        const cells = root.querySelectorAll(spec.cells);
+        const ngList = isReviewer ? settings.ng_reviewers : settings.ng_circles;
+        const showCount = isReviewer ? settings.show_reviewer_ng_count : settings.show_ng_count;
+        let count;
+        if (spec.countCurrentResults && showCount) {
+          const markers = totals[index].get(root) || new Set();
+          // 削除位置のコメントは一覧の差し替えと一緒に消える。
+          // URL・タグ・見出しの更新順に依存せず、現在の結果だけを集計する。
+          for (const marker of markers) {
+            if (!root.contains(marker)) markers.delete(marker);
+          }
+          for (const cell of cells) {
+            const parent = cell.parentNode;
+            const next = cell.nextSibling;
+            if (filterCells([cell], ngList, isReviewer, !isReviewer && settings.hide_ng_by_dlsite)) {
+              // 作品のDOMは保持せず、レイアウトに影響しない空のコメントだけを置く。
+              const marker = document.createComment('enspell-filtered');
+              parent.insertBefore(marker, next);
+              markers.add(marker);
+            }
+          }
+          count = markers.size;
+          totals[index].set(root, markers);
+        } else {
+          const removed = filterCells(cells, ngList, isReviewer, !isReviewer && settings.hide_ng_by_dlsite);
+          count = (totals[index].get(root) || 0) + removed;
+          totals[index].set(root, count);
+        }
         const heading = typeof spec.heading === 'function' ? spec.heading(root) : root.querySelector(spec.heading);
         if (!heading) continue;
         let counter = heading.querySelector('[data-enspell-filter-count]');
+        if (!showCount || !count) {
+          counter?.remove();
+          continue;
+        }
         if (!counter) {
           counter = document.createElement('span');
           counter.setAttribute('data-enspell-filter-count', '');
