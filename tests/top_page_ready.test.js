@@ -89,14 +89,14 @@ test('Nuxtの初期化前は通知せず、取得可能になった後に完了�
   assert.equal(dom.window.document.documentElement.hasAttribute(signal), true);
 });
 
-test('Nuxtを使わない旧ページは待たず、トップ以外には通知しない', async (t) => {
+test('Nuxtを使わない旧ページは待たず、ジャンル復元用に検索ページにも通知する', async (t) => {
   const legacy = createDOM(t, '<main></main>');
   await waitForTopPageReady(legacy.window.document);
   legacy.window.eval(readySource);
   assert.equal(legacy.window.document.documentElement.hasAttribute(signal), true);
   const search = createDOM(t, '<main></main>', 'https://www.dlsite.com/maniax/fsr/=/keyword/test/');
   search.window.eval(readySource);
-  assert.equal(search.window.document.documentElement.hasAttribute(signal), false);
+  assert.equal(search.window.document.documentElement.hasAttribute(signal), true);
 });
 
 test('完了通知だけをMAIN worldで実行し、作品操作と設定取得はisolated worldに保つ', async () => {

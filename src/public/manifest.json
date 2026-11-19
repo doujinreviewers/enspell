@@ -16,7 +16,7 @@
 
   "web_accessible_resources": [{
     "matches": ["<all_urls>"],
-    "resources": ["content/base_filter.js", "content/new_work_filter.js", "content/top_ranking_filter.js", "content/list_filter.js", "content/sales_estimate.js", "genre_mapping.json"]
+    "resources": ["content/base_filter.js", "content/new_work_filter.js", "content/top_ranking_filter.js", "content/list_filter.js", "content/sales_estimate.js", "content/genre_text.js", "genre_mapping.json"]
   }],
 
   "content_scripts": [
@@ -66,13 +66,7 @@
     },
     {
       "matches": ["*://*.dlsite.com/*/work/reviewlist/*"],
-      "js": ["content/reviewer_product_reviewlist.js", "content/genre_revival.js"],
-      "type": "module",
-      "run_at": "document_end"
-    },
-    {
-      "matches": ["*://*.dlsite.com/*/fs"],
-      "js": ["content/genre_revival.js"],
+      "js": ["content/reviewer_product_reviewlist.js"],
       "type": "module",
       "run_at": "document_end"
     }
