@@ -8,12 +8,9 @@ const ReviewerFilter = () => {
 
   const { settings, handleChange, handleBlockListChange } = useSettings({
     ng_reviewers: [],
-    show_ng_count: false,
-    enable_top: false,
-    enable_search: false,
-    enable_ranking: false,
-    enable_announce: false,
-    enable_new: false,
+    show_reviewer_ng_count: false,
+    enable_product: false,
+    enable_review_list: false,
   });
 
   const [reviewerId, setReviewerId] = useState('');

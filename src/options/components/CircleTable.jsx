@@ -9,7 +9,7 @@ const CircleTable = ({ circles, handleUpdateCircles }) => {
 
   const handleCellChange = (index, field, value) => {
     const newData = [...circles];
-    newData[index][field] = value;
+    newData[index] = { ...newData[index], [field]: value };
     handleUpdateCircles(newData);
   };
 

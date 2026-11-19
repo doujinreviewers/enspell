@@ -9,7 +9,7 @@ const ReviewerTable = ({ reviewers, handleUpdateReviewers }) => {
 
   const handleCellChange = (index, field, value) => {
     const newData = [...reviewers];
-    newData[index][field] = value;
+    newData[index] = { ...newData[index], [field]: value };
     handleUpdateReviewers(newData);
   };
 
