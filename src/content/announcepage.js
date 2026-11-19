@@ -1,25 +1,15 @@
 (async () => {
-
-  const baseFilterModule = await import(chrome.runtime.getURL('content/base_filter.js'));
-  const { filterCells, DLSITE_ENSPELL_STORAGE_KEY } = baseFilterModule;
-
-  chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
-    let settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
-
-    if(!settings.enable_announce){
-      return;
-    }
-
-    let cells = document.querySelectorAll(".n_worklist_item");
-    let ngcount = filterCells(cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
-
-    if (settings.show_ng_count) {
-      let heading = document.querySelector("h3.work_update");
-      if(heading){
-        heading.innerHTML = heading.innerHTML + `<strong>-${ngcount}</strong>件`
-      }
-    }
-
+  const { DLSITE_ENSPELL_STORAGE_KEY } = await import(chrome.runtime.getURL('content/base_filter.js'));
+  const { observeFilteredBlocks } = await import(chrome.runtime.getURL('content/list_filter.js'));
+  chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, data => {
+    const settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
+    if (!settings.enable_announce) return;
+    observeFilteredBlocks(document, settings, [
+  {
+    "root": "#main_inner",
+    "cells": ".n_worklist_item",
+    "heading": "h3.work_update"
+  }
+]);
   });
-
 })();

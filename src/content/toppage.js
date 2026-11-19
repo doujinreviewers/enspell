@@ -9,24 +9,13 @@
   const { observeNewWorks } = await import(chrome.runtime.getURL('content/new_work_filter.js'));
   const { observeTopRankings, waitForTopPageReady } = await import(chrome.runtime.getURL('content/top_ranking_filter.js'));
 
+  const { observeRecommendations } = await import(chrome.runtime.getURL('content/list_filter.js'));
+
   await waitForTopPageReady(document);
 
-  let recommend_list = document.querySelectorAll(".recommend_list.type_top");
   let top_total_ranking_cells = document.querySelectorAll("._top_total_ranking li");
   let type_genre_ranking_blocks = document.querySelectorAll(".work_push.type_genre_ranking");
   let subheading = document.querySelectorAll("[data-section_name=top_recommend] h3.work_subheading");
-
-  let discount_cells = [];
-  let recommend_cells = [];
-  Array.from(recommend_list).forEach((cell) => {
-    if(cell.className.includes("_discount")){
-      discount_cells = cell;
-    }else if(cell.className.includes("_all_")){
-      recommend_cells = cell;
-    }
-  })
-
-  let titles = document.querySelectorAll(".title_01.with_work_push.clearfix")
 
   chrome.storage.local.get(DLSITE_ENSPELL_STORAGE_KEY, (data)=>{
     let settings = data[DLSITE_ENSPELL_STORAGE_KEY] || {};
@@ -37,6 +26,7 @@
 
     observeNewWorks(document, settings);
     observeTopRankings(document, settings);
+    observeRecommendations(document, settings);
 
     let ngcount = filterCells(top_total_ranking_cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
 
@@ -64,48 +54,6 @@
       }
 
     })
-
-    let config = {
-      childList: true,
-      subtree: true
-    };
-
-    let dom = discount_cells;
-    let mo = new MutationObserver(function(record, observer) {
-      let cells = discount_cells.querySelectorAll("li.swiper-slide");
-      if(cells){
-        ngcount = filterCells(cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
-
-        if (settings.show_ng_count) {
-          Array.from(titles).forEach((cell) => {
-            if(cell.innerHTML && cell.innerHTML.indexOf("割引開始作品") != -1 && settings.show_ng_count){
-              cell.innerHTML = cell.innerHTML.replace("割引開始作品", `割引開始作品 -${ngcount}`)
-            }
-          })
-        }
-        mo.disconnect();
-      }
-    });
-    if (dom instanceof Element) mo.observe(dom, config);
-
-    let r_dom = recommend_cells;
-    let r_mo = new MutationObserver(function(record, observer) {
-      let cells = recommend_cells.querySelectorAll("li.swiper-slide");
-      if(cells){
-        ngcount = filterCells(cells, settings.ng_circles, false, settings.hide_ng_by_dlsite);
-
-        if (settings.show_ng_count) {
-          Array.from(titles).forEach((cell) => {
-            if(cell.innerHTML && cell.innerHTML.indexOf("あなたにオススメの同人作品") != -1 && settings.show_ng_count){
-              cell.innerHTML = cell.innerHTML.replace("あなたにオススメの同人作品", `あなたにオススメの同人作品 -${ngcount}`)
-            }
-          })
-        }
-
-        r_mo.disconnect();
-      }
-    });
-    if (r_dom instanceof Element) r_mo.observe(r_dom, config);
 
   });
 
