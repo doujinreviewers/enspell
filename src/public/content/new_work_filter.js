@@ -20,16 +20,21 @@ export const observeNewWorks = (document, settings) => {
     observer.disconnect();
     try {
       for (const root of document.querySelectorAll(ROOT_SELECTOR)) {
-        const category = [...root.querySelectorAll('.new-product-filter .is-active')]
+        const category = [...root.querySelectorAll('.new-product-filter .is-active, .display_filter .active')]
           .map((element) => element.textContent).join('|');
-        for (const block of root.querySelectorAll('.new-product-section, .work_block')) {
+        const blockSelector = '.new-product-section, .work_block, .n_work_list_container';
+        const blocks = [...root.querySelectorAll(blockSelector)].filter(block => {
+          const outer = block.parentElement?.closest(blockSelector);
+          return !outer || !root.contains(outer);
+        });
+        for (const block of blocks) {
           const heading = block.querySelector('.headline__title, .work_subheading');
           const title = heading?.cloneNode(true);
           title?.querySelector('[data-enspell-new-work-count]')?.remove();
           const signature = `${category}|${title?.textContent || ''}`;
           const previous = counts.get(block);
           const removed = filterCells(
-            block.querySelectorAll('.new-product-section__item, .n_worklist_item'),
+            block.querySelectorAll('.new-product-section__item, .n_worklist_item, .push_list > li'),
             settings.ng_circles, false, settings.hide_ng_by_dlsite,
           );
           const count = (previous?.signature === signature ? previous.count : 0) + removed;

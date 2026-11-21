@@ -38,7 +38,7 @@ const CircleFilter = () => {
   return (
     <Stack>
       <h2>作品フィルタリング設定</h2>
-      <p>サークルIDかサークル名のどちらかが設定されていれば動作します</p>
+      <p>サークル・メーカー・出版社・著者のID（RG・VG・BG・AJ）または名前を指定できます。声優名だけでは作品を除外しません。</p>
       <div>
         <Group align="flex-end">
           <TextInput

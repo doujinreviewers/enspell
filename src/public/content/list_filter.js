@@ -8,7 +8,7 @@ export const observeDocument = (document, update) => {
     try { update(); } finally {
       observer.observe(document.body, {
         childList: true, subtree: true, characterData: true,
-        attributes: true, attributeFilter: ['class', 'href'],
+        attributes: true, attributeFilter: ['class', 'href', 'data-maker_id', 'data-enspell-product'],
       });
     }
   }
@@ -68,11 +68,30 @@ export const observeFilteredBlocks = (document, settings, specs, isReviewer = fa
   });
 };
 
+// 見出し文言に依存せず、対象の欄に最も近い見出しを取得する。
+export const findBlockHeading = root => {
+  for (let current = root; current && !current.matches('body, #main_inner'); current = current.parentElement) {
+    for (let previous = current.previousElementSibling; previous; previous = previous.previousElementSibling) {
+      if (previous.matches('h2, h3, .work_subheading')) return previous;
+      if (previous.matches('.title_01, .title_02')) return previous.querySelector('h2, h3') || previous;
+    }
+  }
+  return null;
+};
+
+export const observeLegacyTopRankings = (document, settings) => observeFilteredBlocks(document, settings, [
+  { root: '._top_total_ranking', cells: 'li.swiper-slide, .push_list > li, :scope > li', heading: findBlockHeading },
+  { root: '.work_push.type_genre_ranking',
+    cells: '.genre_ranking > .genre_ranking_item:not(:has(.genre_ranking_sub)), .genre_ranking_sub > li', heading: findBlockHeading },
+]);
+
+export const observeGarumaniTop = (document, settings) => observeFilteredBlocks(document, settings, [
+  { root: '.product-contents > section', cells: '.keen-slider__slide:has(.productCard)', heading: '.c-heading' },
+]);
+
 export const observeRecommendations = (document, settings) => observeFilteredBlocks(document, settings, [
   { root: '.recommended-products-content-pc', cells: '.keen-slider__slide', heading: '.headline__title' },
   {
-    root: '.recommend_list.type_top', cells: 'li.swiper-slide',
-    heading: root => [...document.querySelectorAll('.title_01.with_work_push')].find(heading =>
-      heading.textContent.includes(root.className.includes('_discount') ? '割引開始作品' : 'あなたにオススメの同人作品')),
+    root: '.recommend_list.type_top:not(._top_total_ranking)', cells: 'li.swiper-slide', heading: findBlockHeading,
   },
 ]);
