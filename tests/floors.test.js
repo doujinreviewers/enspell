@@ -118,7 +118,7 @@ test('がるまにボイスの非表示サークル情報を公開payloadから�
   assert.equal(d.getElementById('normal'), null);
 });
 
-test('がるまにカードの再利用時は古い商品情報を使わず、声優だけの表示をNGサークルと誤認しない', async t => {
+test('がるまにカードの再利用時は古い商品情報を使わず、見出しだけの文字をNG候補にしない', async t => {
   const dom = setup(t, '<div id="__nuxt"><div class="product-contents"><div class="productCard"><a href="/garumani/work/=/product_id/BJ1.html">作品</a><span class="voiceActors">声優</span></div></div></div>', 'garumani/voice');
   const d = dom.window.document;
   dom.window.useNuxtApp = () => ({ isHydrating: false, payload: { data: [{ id: 'BJ1', maker: { id: 'BG1', name: 'メーカー' }, authors: [{ id: 'AJ1', name: '著者' }], private: '含めない' }] } });

@@ -5,7 +5,7 @@
     if (!/^\/garumani\/voice\/?$/.test(location.pathname) || metadataObserver) return;
     const ownerDocument = document;
     // このフロアはサークルを画面に表示しない。既に取得済みの公開作品データから
-    // 商品IDとメーカー/著者だけをカードに付記し、設定・削除処理はisolated worldに保つ。
+    // 商品ID・メーカー/著者・声優名だけを付記し、設定・削除処理はisolated worldに保つ。
     const update = () => {
       if (!ownerDocument.defaultView?.document) return;
       const products = new Map(), seen = new WeakSet();
@@ -16,11 +16,18 @@
         const value = pending.pop();
         if (!value || typeof value !== 'object' || seen.has(value)) continue;
         seen.add(value);
-        if (/^(?:RJ|BJ|VJ)\d+$/.test(value.id || '') && value.maker) {
+        if (/^(?:RJ|BJ|VJ)\d+$/.test(value.id || '') && (value.maker || Array.isArray(value.voiceBys))) {
           const makers = [value.maker, ...(Array.isArray(value.authors) ? value.authors : [])]
             .filter(maker => maker && /^(?:RG|VG|BG|AJ)\d+$/.test(maker.id || '') && typeof maker.name === 'string')
             .map(({ id, name }) => ({ id, name }));
-          if (makers.length) products.set(value.id, { id: value.id, makers });
+          const voiceActors = [...new Set((Array.isArray(value.voiceBys) ? value.voiceBys : [])
+            .filter(actor => typeof actor?.name === 'string' && actor.name.trim())
+            .map(actor => actor.name.trim()))];
+          if (makers.length || voiceActors.length) {
+            const product = { id: value.id, makers };
+            if (Array.isArray(value.voiceBys)) product.voiceActors = voiceActors;
+            products.set(value.id, product);
+          }
         }
         pending.push(...Object.values(value));
       }

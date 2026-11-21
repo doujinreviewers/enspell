@@ -38,7 +38,8 @@ const CircleFilter = () => {
   return (
     <Stack>
       <h2>作品フィルタリング設定</h2>
-      <p>サークル・メーカー・出版社・著者のID（RG・VG・BG・AJ）または名前を指定できます。声優名だけでは作品を除外しません。</p>
+      <p>サークル・メーカー・出版社・著者のID（RG・VG・BG・AJ）または名前を指定できます。</p>
+      <p>がるまにボイス／ASMRのトップでは、声優名も名前欄に登録できます。複数出演時は1人でも一致すると作品を削除します。</p>
       <div>
         <Group align="flex-end">
           <TextInput
@@ -48,8 +49,8 @@ const CircleFilter = () => {
             onChange={(e) => setCircleId(e.target.value)}
           />
           <TextInput
-            label="サークル名"
-            placeholder="サークル1"
+            label="名前（サークル・メーカー・著者・声優）"
+            placeholder="サークル名や声優名"
             value={circleName}
             onChange={(e) => setCircleName(e.target.value)}
           />

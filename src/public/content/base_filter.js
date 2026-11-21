@@ -56,9 +56,41 @@ export const getMakerCandidates = cell => {
   return candidates;
 };
 
+export const getVoiceActorNames = cell => {
+  const pathname = cell.ownerDocument?.location?.pathname || '';
+  if (!/^\/garumani\/voice\/?$/.test(pathname)) return [];
+  const cards = cell.matches?.('.productCard') ? [cell] : cell.querySelectorAll?.('.productCard') || [];
+  const names = new Set();
+  for (const card of cards) {
+    const raw = card.getAttribute('data-enspell-product');
+    if (raw) {
+      try {
+        const info = JSON.parse(raw);
+        const id = card.querySelector('a[href*="/product_id/"]')?.href.match(/\/product_id\/((?:RJ|BJ|VJ)\d+)/)?.[1];
+        // 再利用中のカードでは、旧商品の声優名を表示側から拾い直すことも避ける。
+        if (!id || info?.id !== id) continue;
+        if (Array.isArray(info.voiceActors)) {
+          for (const name of info.voiceActors) {
+            if (typeof name === 'string' && name.trim()) names.add(name.trim());
+          }
+          // 公開データの一覧を正とし、再描画途中に残った旧表示名は混ぜない。
+          continue;
+        }
+      } catch { continue; }
+    }
+    for (const link of card.querySelectorAll('.voiceActors .voiceActor a')) {
+      if (link.textContent.trim()) names.add(link.textContent.trim());
+    }
+  }
+  return [...names];
+};
+
 const matchesNg = (cell, ngList, isReviewer) => {
   const candidates = isReviewer ? [getReviewerIdAndName(cell)] : getMakerCandidates(cell);
-  return candidates.some(({ id, name }) => judge(ngList, id) || judge(ngList, name));
+  if (candidates.some(({ id, name }) => judge(ngList, id) || judge(ngList, name))) return true;
+  if (isReviewer) return false;
+  const voiceNames = getVoiceActorNames(cell);
+  return ngList.some(target => typeof target?.name === 'string' && voiceNames.includes(target.name.trim()));
 };
 
 export const getReviewerIdAndName = (cell) => {
